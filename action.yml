@@ -1,0 +1,14 @@
+name: "Create Dart Release"
+description: "An action to create a github release from a dart package"
+author: "Skycoder42"
+inputs:
+  clean:
+    description: "Perform a clean installation, ignoring any caches"
+    required: false
+    default: "false"
+outputs:
+  shell:
+    description: "The shell that should be used to run qmake/make commands"
+runs:
+  using: "node12"
+  main: "dist/main.js"
