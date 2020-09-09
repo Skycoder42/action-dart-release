@@ -9,17 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.runAction = void 0;
 const core_1 = require("@actions/core");
-const config_1 = require("./config");
-const action_1 = require("./action");
-const run = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const config = config_1.loadConfig();
-        yield action_1.runAction(config);
+const cider_1 = require("./cider");
+const pubDev_1 = require("./pubDev");
+const semver_1 = require("semver");
+exports.runAction = (config) => __awaiter(void 0, void 0, void 0, function* () {
+    const cider = yield cider_1.Cider.init(config.srcDir);
+    const pubDev = new pubDev_1.PubDev();
+    const pubVersion = yield pubDev.getLatestVersion(cider.projectName);
+    if (semver_1.gt(cider.projectVersion, pubVersion)) {
+        core_1.info("Pub.Dev is outdated - generating new release.");
+        yield cider.generateReleaseData(pubVersion);
+        core_1.setOutput("update" /* update */, true);
     }
-    catch (e) {
-        core_1.error(e);
-        core_1.setFailed(e);
+    else {
+        core_1.info("Pub.Dev is up to date - no new release required.");
+        core_1.setOutput("update" /* update */, false);
     }
 });
-run();
