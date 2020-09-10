@@ -13,7 +13,8 @@ const utils_1 = require("ts-jest/utils");
 const config_1 = require("../config");
 const core_1 = require("@actions/core");
 const yaml_1 = require("yaml");
-const promises_1 = require("fs/promises");
+const fs_1 = require("fs");
+const { readFile } = fs_1.promises;
 jest.mock("@actions/core");
 const loadConfigMock = utils_1.mocked(core_1.getInput, true);
 describe("config.ts", () => {
@@ -21,7 +22,7 @@ describe("config.ts", () => {
         loadConfigMock.mockReset();
     });
     test("keys match action.yml", () => __awaiter(void 0, void 0, void 0, function* () {
-        const yamlData = yaml_1.parse(yield promises_1.readFile("action.yml", "utf-8"));
+        const yamlData = yaml_1.parse(yield readFile("action.yml", "utf-8"));
         const inputs = Object.keys(yamlData.inputs);
         expect(inputs).toHaveLength(1);
         expect(inputs).toContain("src_dir" /* srcDir */);

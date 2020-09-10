@@ -1,5 +1,5 @@
 import { mocked } from "ts-jest/utils";
-import { readFile, writeFile } from "fs/promises";
+import { promises } from "fs";
 import { join } from "path";
 import { exec as execCB } from "child_process";
 
@@ -9,16 +9,20 @@ import { exec } from "@actions/exec";
 import { parse } from "yaml";
 import semver, { clean, SemVer } from "semver";
 
-import { OutKeys } from "../config";
-import { Cider } from "../cider";
+promises.readFile = jest.fn();
+promises.writeFile = jest.fn();
+semver.clean = jest.fn();
 
 jest.mock("@actions/core");
 jest.mock("@actions/io");
 jest.mock("@actions/exec");
-jest.mock("fs/promises");
 jest.mock("child_process");
 jest.mock("yaml");
-semver.clean = jest.fn();
+
+const { readFile, writeFile } = promises;
+
+import { OutKeys } from "../config";
+import { Cider } from "../cider";
 
 const whichMock = mocked(which, true);
 const execMock = mocked(exec, true);

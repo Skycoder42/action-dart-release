@@ -2,17 +2,18 @@ import { exec } from "@actions/exec";
 import { which } from "@actions/io";
 import { debug, setOutput } from "@actions/core";
 import { parse } from "yaml";
-import { readFile, writeFile } from "fs/promises";
+import { promises } from "fs";
 import { join } from "path";
 import { clean, SemVer } from "semver";
 import { OutKeys } from "./config";
 import { exec as execCB } from "child_process";
-import { promisify } from "util";
 
 type PubspecYaml = {
   name: string;
   version: string;
 };
+
+const { readFile, writeFile } = promises;
 
 export class Cider {
   private _ciderPath: string;

@@ -14,10 +14,11 @@ const exec_1 = require("@actions/exec");
 const io_1 = require("@actions/io");
 const core_1 = require("@actions/core");
 const yaml_1 = require("yaml");
-const promises_1 = require("fs/promises");
+const fs_1 = require("fs");
 const path_1 = require("path");
 const semver_1 = require("semver");
 const child_process_1 = require("child_process");
+const { readFile, writeFile } = fs_1.promises;
 class Cider {
     constructor(ciderPath, projectDir, projectName, projectVersion, projectVersionRaw) {
         this._ciderPath = ciderPath;
@@ -39,7 +40,7 @@ class Cider {
             yield exec_1.exec(pubPath, ["global", "activate", "cider"]);
             const ciderPath = yield io_1.which("cider", true);
             core_1.debug("Loading project info...");
-            const yamlFile = yield promises_1.readFile(path_1.join(projectDir, "pubspec.yaml"), "utf-8");
+            const yamlFile = yield readFile(path_1.join(projectDir, "pubspec.yaml"), "utf-8");
             const yamlData = yaml_1.parse(yamlFile);
             const version = semver_1.clean(yamlData.version, {
                 includePrerelease: false,
@@ -68,7 +69,7 @@ class Cider {
             }
             const outPath = path_1.join(process.cwd(), "release_body.md");
             const stdout = yield this.runCommand(`${this._ciderPath} describe [${this._projectVersionRaw}]`);
-            yield promises_1.writeFile(outPath, "## Changelog\n" + stdout.split("\n").slice(1).join("\n"));
+            yield writeFile(outPath, "## Changelog\n" + stdout.split("\n").slice(1).join("\n"));
             core_1.setOutput("body_path" /* bodyPath */, outPath);
         });
     }

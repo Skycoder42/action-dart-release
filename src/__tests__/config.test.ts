@@ -2,7 +2,9 @@ import { mocked } from "ts-jest/utils";
 import { loadConfig, InKeys, OutKeys } from "../config";
 import { getInput } from "@actions/core";
 import { parse } from "yaml";
-import { readFile } from "fs/promises";
+import { promises } from "fs";
+
+const { readFile } = promises;
 
 jest.mock("@actions/core");
 const loadConfigMock = mocked(getInput, true);
