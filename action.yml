@@ -8,11 +8,11 @@ inputs:
 outputs:
   update:
     description: "Is true/false, depending on wheter a new release is required or not"
-  newVersion:
+  new-version:
     description: "If a new release is required, it holds the sanitized version"
   title:
     description: "If a new release is required, it holds the recommended release title"
-  bodyPath:
+  body-path:
     description: "If a new release is required, it holds the path to a file that contains the part of the changelog that matters for the new version."
 runs:
   using: "node12"

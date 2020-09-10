@@ -1,10 +1,14 @@
 import { debug, getInput } from "@actions/core";
 
+export const enum InKeys {
+  srcDir = "src-dir",
+}
+
 export const enum OutKeys {
   update = "update",
-  newVersion = "newVersion",
+  newVersion = "new-version",
   title = "title",
-  bodyPath = "bodyPath",
+  bodyPath = "body-path",
 }
 
 export type Config = {

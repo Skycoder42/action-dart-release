@@ -23,8 +23,10 @@ class PubDev {
                         Accept: "application/vnd.pub.v2+json",
                     },
                 }, (response) => {
-                    if (response.statusCode != 200) {
-                        rej(response.statusMessage);
+                    var _a;
+                    if (((_a = response.statusCode) !== null && _a !== void 0 ? _a : 400) >= 300) {
+                        rej(new Error(response.statusMessage));
+                        return;
                     }
                     response.on("error", (e) => rej(e));
                     const chunks = [];

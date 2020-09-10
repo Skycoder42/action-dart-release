@@ -14,8 +14,9 @@ export class PubDev {
           },
         },
         (response) => {
-          if (response.statusCode != 200) {
-            rej(response.statusMessage);
+          if ((response.statusCode ?? 400) >= 300) {
+            rej(new Error(response.statusMessage));
+            return;
           }
 
           response.on("error", (e) => rej(e));

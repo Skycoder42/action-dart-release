@@ -18,8 +18,6 @@ const promises_1 = require("fs/promises");
 const path_1 = require("path");
 const semver_1 = require("semver");
 const child_process_1 = require("child_process");
-const util_1 = require("util");
-const runCommand = util_1.promisify(child_process_1.exec);
 class Cider {
     constructor(ciderPath, projectDir, projectName, projectVersion, projectVersionRaw) {
         this._ciderPath = ciderPath;
@@ -55,7 +53,7 @@ class Cider {
     }
     generateReleaseData(oldVersion) {
         return __awaiter(this, void 0, void 0, function* () {
-            core_1.setOutput("newVersion" /* newVersion */, this._projectVersion.raw);
+            core_1.setOutput("new-version" /* newVersion */, this._projectVersion.raw);
             if (this._projectVersion.major > oldVersion.major) {
                 core_1.setOutput("title" /* title */, "A new major release is available!");
             }
@@ -69,9 +67,21 @@ class Cider {
                 core_1.setOutput("title" /* title */, "A new release is available!");
             }
             const outPath = path_1.join(process.cwd(), "release_body.md");
-            const { stdout, } = yield runCommand(`${this._ciderPath} describe [${this._projectVersionRaw}]`, { cwd: this._projectDir });
+            const stdout = yield this.runCommand(`${this._ciderPath} describe [${this._projectVersionRaw}]`);
             yield promises_1.writeFile(outPath, "## Changelog\n" + stdout.split("\n").slice(1).join("\n"));
-            core_1.setOutput("bodyPath" /* bodyPath */, outPath);
+            core_1.setOutput("body-path" /* bodyPath */, outPath);
+        });
+    }
+    runCommand(command) {
+        return new Promise((res, rej) => {
+            child_process_1.exec(command, { cwd: this._projectDir }, (e, stdout) => {
+                if (e) {
+                    rej(e);
+                }
+                else {
+                    res(stdout);
+                }
+            });
         });
     }
 }

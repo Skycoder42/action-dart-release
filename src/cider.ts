@@ -9,8 +9,6 @@ import { OutKeys } from "./config";
 import { exec as execCB } from "child_process";
 import { promisify } from "util";
 
-const runCommand = promisify(execCB);
-
 type PubspecYaml = {
   name: string;
   version: string;
@@ -84,16 +82,25 @@ export class Cider {
     }
 
     const outPath = join(process.cwd(), "release_body.md");
-    const {
-      stdout,
-    } = await runCommand(
-      `${this._ciderPath} describe [${this._projectVersionRaw}]`,
-      { cwd: this._projectDir }
+    const stdout = await this.runCommand(
+      `${this._ciderPath} describe [${this._projectVersionRaw}]`
     );
     await writeFile(
       outPath,
       "## Changelog\n" + stdout.split("\n").slice(1).join("\n")
     );
     setOutput(OutKeys.bodyPath, outPath);
+  }
+
+  private runCommand(command: string): Promise<string> {
+    return new Promise<string>((res, rej) => {
+      execCB(command, { cwd: this._projectDir }, (e, stdout) => {
+        if (e) {
+          rej(e);
+        } else {
+          res(stdout);
+        }
+      });
+    });
   }
 }
