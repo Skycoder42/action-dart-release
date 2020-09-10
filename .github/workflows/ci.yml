@@ -1,0 +1,36 @@
+name: Continous Integration
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  ci:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          check-latest: true
+      - uses: actions/checkout@v2
+      - run: rm -rf node_modules && dist
+      - name: cache node_modules
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          path: "node_modules"
+          key: node_modules-${{runner.os}}-${{hashFiles('yarn.lock')}}
+      - run: yarn build
+      - run: yarn test
