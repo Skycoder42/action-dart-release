@@ -24,18 +24,23 @@ describe("config.ts", () => {
         const yamlData = yaml_1.parse(yield promises_1.readFile("action.yml", "utf-8"));
         const inputs = Object.keys(yamlData.inputs);
         expect(inputs).toHaveLength(1);
-        expect(inputs).toContain("src-dir" /* srcDir */);
+        expect(inputs).toContain("src_dir" /* srcDir */);
         const outputs = Object.keys(yamlData.outputs);
         expect(outputs).toHaveLength(4);
         expect(outputs).toContain("update" /* update */);
-        expect(outputs).toContain("new-version" /* newVersion */);
-        expect(outputs).toContain("title" /* title */);
-        expect(outputs).toContain("body-path" /* bodyPath */);
+        expect(outputs).toContain("tag_name" /* newVersion */);
+        expect(outputs).toContain("release_name" /* title */);
+        expect(outputs).toContain("body_path" /* bodyPath */);
     }));
     test("loadConfig creates correct config", () => {
         loadConfigMock.mockReturnValueOnce("src");
         const config = config_1.loadConfig();
         expect(config.srcDir).toBe("src");
-        expect(loadConfigMock).toHaveBeenCalledWith("src-dir", { required: true });
+        expect(loadConfigMock).toHaveBeenCalledWith("src_dir" /* srcDir */);
+    });
+    test("loadConfig uses correct defaults", () => {
+        const config = config_1.loadConfig();
+        expect(config.srcDir).toBe(process.cwd());
+        expect(loadConfigMock).toHaveBeenCalledWith("src_dir" /* srcDir */);
     });
 });

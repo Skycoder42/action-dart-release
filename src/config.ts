@@ -1,14 +1,14 @@
 import { debug, getInput } from "@actions/core";
 
 export const enum InKeys {
-  srcDir = "src-dir",
+  srcDir = "src_dir",
 }
 
 export const enum OutKeys {
   update = "update",
-  newVersion = "new-version",
-  title = "title",
-  bodyPath = "body-path",
+  newVersion = "tag_name",
+  title = "release_name",
+  bodyPath = "body_path",
 }
 
 export type Config = {
@@ -17,8 +17,13 @@ export type Config = {
 
 export const loadConfig = (): Config => {
   const config: Config = {
-    srcDir: getInput("src-dir", { required: true }),
+    srcDir: getInputWithDefault(InKeys.srcDir, process.cwd()),
   };
   debug(`Using config: ${JSON.stringify(config, undefined, 2)}`);
   return config;
+};
+
+const getInputWithDefault = (key: InKeys, defaultValue: string) => {
+  const value = getInput(key);
+  return value ? value : defaultValue;
 };

@@ -53,23 +53,23 @@ class Cider {
     }
     generateReleaseData(oldVersion) {
         return __awaiter(this, void 0, void 0, function* () {
-            core_1.setOutput("new-version" /* newVersion */, this._projectVersion.raw);
+            core_1.setOutput("tag_name" /* newVersion */, this._projectVersion.raw);
             if (this._projectVersion.major > oldVersion.major) {
-                core_1.setOutput("title" /* title */, "A new major release is available!");
+                core_1.setOutput("release_name" /* title */, "A new major release is available!");
             }
             else if (this._projectVersion.minor > oldVersion.minor) {
-                core_1.setOutput("title" /* title */, "A new minor release is available!");
+                core_1.setOutput("release_name" /* title */, "A new minor release is available!");
             }
             else if (this._projectVersion.patch > oldVersion.patch) {
-                core_1.setOutput("title" /* title */, "A new patch release is available!");
+                core_1.setOutput("release_name" /* title */, "A new patch release is available!");
             }
             else {
-                core_1.setOutput("title" /* title */, "A new release is available!");
+                core_1.setOutput("release_name" /* title */, "A new release is available!");
             }
             const outPath = path_1.join(process.cwd(), "release_body.md");
             const stdout = yield this.runCommand(`${this._ciderPath} describe [${this._projectVersionRaw}]`);
             yield promises_1.writeFile(outPath, "## Changelog\n" + stdout.split("\n").slice(1).join("\n"));
-            core_1.setOutput("body-path" /* bodyPath */, outPath);
+            core_1.setOutput("body_path" /* bodyPath */, outPath);
         });
     }
     runCommand(command) {

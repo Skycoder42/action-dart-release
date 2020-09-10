@@ -32,6 +32,12 @@ describe("config.ts", () => {
 
     const config = loadConfig();
     expect(config.srcDir).toBe("src");
-    expect(loadConfigMock).toHaveBeenCalledWith("src-dir", { required: true });
+    expect(loadConfigMock).toHaveBeenCalledWith(InKeys.srcDir);
+  });
+
+  test("loadConfig uses correct defaults", () => {
+    const config = loadConfig();
+    expect(config.srcDir).toBe(process.cwd());
+    expect(loadConfigMock).toHaveBeenCalledWith(InKeys.srcDir);
   });
 });

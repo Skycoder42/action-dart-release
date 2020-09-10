@@ -133,8 +133,8 @@ describe("cider.ts", () => {
                 cleanMock.mockReturnValueOnce(version);
                 const cider = yield cider_1.Cider.init("");
                 yield cider.generateReleaseData(new semver_1.SemVer("1.0.0"));
-                expect(setOutputMock).toHaveBeenCalledWith("new-version" /* newVersion */, version);
-                expect(setOutputMock).toHaveBeenCalledWith("title" /* title */, title);
+                expect(setOutputMock).toHaveBeenCalledWith("tag_name" /* newVersion */, version);
+                expect(setOutputMock).toHaveBeenCalledWith("release_name" /* title */, title);
             }));
         }
         test("write release body", () => __awaiter(void 0, void 0, void 0, function* () {
@@ -151,7 +151,7 @@ describe("cider.ts", () => {
             yield cider.generateReleaseData(new semver_1.SemVer("1.0.0"));
             expect(execCBMock).toHaveBeenCalledWith("cider.run describe [2.0.0]", { cwd: "dir" }, expect.any(Function));
             expect(writeFileMock).toHaveBeenCalledWith(path_1.join(process.cwd(), "release_body.md"), "## Changelog\nline2\nline3\n");
-            expect(setOutputMock).toHaveBeenCalledWith("body-path" /* bodyPath */, path_1.join(process.cwd(), "release_body.md"));
+            expect(setOutputMock).toHaveBeenCalledWith("body_path" /* bodyPath */, path_1.join(process.cwd(), "release_body.md"));
         }));
     });
 });
