@@ -2,11 +2,13 @@ import { mocked } from "ts-jest/utils";
 import { loadConfig, InKeys, OutKeys } from "../config";
 import { getInput } from "@actions/core";
 import { parse } from "yaml";
-import { promises } from "fs";
+import { promises, existsSync } from "fs";
+import { join } from "path";
 
 const { readFile } = promises;
 
 jest.mock("@actions/core");
+jest.unmock("fs");
 const loadConfigMock = mocked(getInput, true);
 
 describe("config.ts", () => {
@@ -15,9 +17,10 @@ describe("config.ts", () => {
   });
 
   test("keys match action.yml", async () => {
-    console.warn(process.env);
-    console.warn(process.cwd());
-    const yamlData = parse(await readFile("action.yml", "utf-8"));
+    const actionPath = join(process.cwd(), "action.yml");
+    console.debug(actionPath);
+    console.debug(existsSync(actionPath));
+    const yamlData = parse(await readFile(actionPath, "utf-8"));
 
     const inputs = Object.keys(yamlData.inputs);
     expect(inputs).toHaveLength(1);
