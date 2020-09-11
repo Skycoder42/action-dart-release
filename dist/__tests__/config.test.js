@@ -22,6 +22,8 @@ describe("config.ts", () => {
         loadConfigMock.mockReset();
     });
     test("keys match action.yml", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.warn(process.env);
+        console.warn(process.cwd());
         const yamlData = yaml_1.parse(yield readFile("action.yml", "utf-8"));
         const inputs = Object.keys(yamlData.inputs);
         expect(inputs).toHaveLength(1);

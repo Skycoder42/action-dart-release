@@ -15,6 +15,8 @@ describe("config.ts", () => {
   });
 
   test("keys match action.yml", async () => {
+    console.warn(process.env);
+    console.warn(process.cwd());
     const yamlData = parse(await readFile("action.yml", "utf-8"));
 
     const inputs = Object.keys(yamlData.inputs);
