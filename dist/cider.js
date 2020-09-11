@@ -38,6 +38,7 @@ class Cider {
             core_1.debug("Installing cider...");
             const pubPath = yield io_1.which("pub", true);
             yield exec_1.exec(pubPath, ["global", "activate", "cider"]);
+            core_1.addPath(path_1.join(process.env.HOME, ".pub-cache", "bin"));
             const ciderPath = yield io_1.which("cider", true);
             core_1.debug("Loading project info...");
             const yamlFile = yield readFile(path_1.join(projectDir, "pubspec.yaml"), "utf-8");

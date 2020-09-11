@@ -3,7 +3,7 @@ import { promises } from "fs";
 import { join } from "path";
 import { exec as execCB } from "child_process";
 
-import { setOutput } from "@actions/core";
+import { setOutput, addPath } from "@actions/core";
 import { which } from "@actions/io";
 import { exec } from "@actions/exec";
 import { parse } from "yaml";
@@ -30,6 +30,7 @@ const readFileMock = mocked(readFile, true);
 const writeFileMock = mocked(writeFile, true);
 const parseMock = mocked(parse, true);
 const cleanMock = mocked(clean, true);
+const addPathMock = mocked(addPath, true);
 const setOutputMock = mocked(setOutput, true);
 const execCBMock = mocked(execCB, true);
 
@@ -59,6 +60,7 @@ describe("cider.ts", () => {
   describe("init", () => {
     test("installs cider", async () => {
       whichMock.mockResolvedValueOnce("pub.run");
+      process.env.HOME = "HOME";
 
       await Cider.init("");
 
@@ -68,6 +70,9 @@ describe("cider.ts", () => {
         "activate",
         "cider",
       ]);
+      expect(addPathMock).toHaveBeenCalledWith(
+        join("HOME", ".pub-cache", "bin")
+      );
       expect(whichMock).toHaveBeenCalledWith("cider", true);
     });
 

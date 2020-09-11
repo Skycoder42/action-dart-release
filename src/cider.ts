@@ -1,6 +1,6 @@
 import { exec } from "@actions/exec";
 import { which } from "@actions/io";
-import { debug, setOutput } from "@actions/core";
+import { debug, setOutput, addPath } from "@actions/core";
 import { parse } from "yaml";
 import { promises } from "fs";
 import { join } from "path";
@@ -47,6 +47,7 @@ export class Cider {
     debug("Installing cider...");
     const pubPath = await which("pub", true);
     await exec(pubPath, ["global", "activate", "cider"]);
+    addPath(join(process.env.HOME!, ".pub-cache", "bin"));
     const ciderPath = await which("cider", true);
 
     debug("Loading project info...");

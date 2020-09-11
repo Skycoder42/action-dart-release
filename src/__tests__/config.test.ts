@@ -8,7 +8,6 @@ import { join } from "path";
 const { readFile } = promises;
 
 jest.mock("@actions/core");
-jest.unmock("fs");
 const loadConfigMock = mocked(getInput, true);
 
 describe("config.ts", () => {
@@ -20,7 +19,9 @@ describe("config.ts", () => {
     const actionPath = join(process.cwd(), "action.yml");
     console.debug(actionPath);
     console.debug(existsSync(actionPath));
-    const yamlData = parse(await readFile(actionPath, "utf-8"));
+    const actionData = await readFile(actionPath, "utf-8");
+    console.debug(actionData);
+    const yamlData = parse(actionData);
 
     const inputs = Object.keys(yamlData.inputs);
     expect(inputs).toHaveLength(1);
