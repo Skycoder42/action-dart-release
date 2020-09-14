@@ -2,10 +2,8 @@ import { mocked } from "ts-jest/utils";
 import { loadConfig, InKeys, OutKeys } from "../config";
 import { getInput } from "@actions/core";
 import { parse } from "yaml";
-import { promises, existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { join } from "path";
-
-const { readFile } = promises;
 
 jest.mock("@actions/core");
 const loadConfigMock = mocked(getInput, true);
@@ -15,12 +13,9 @@ describe("config.ts", () => {
     loadConfigMock.mockReset();
   });
 
-  test("keys match action.yml", async () => {
+  test("keys match action.yml", () => {
     const actionPath = join(process.cwd(), "action.yml");
-    console.debug(actionPath);
-    console.debug(existsSync(actionPath));
-    const actionData = await readFile(actionPath, "utf-8");
-    console.debug(actionData);
+    const actionData = readFileSync(actionPath, "utf-8");
     const yamlData = parse(actionData);
 
     const inputs = Object.keys(yamlData.inputs);
