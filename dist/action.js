@@ -14,7 +14,7 @@ const core_1 = require("@actions/core");
 const cider_1 = require("./cider");
 const pubDev_1 = require("./pubDev");
 const semver_1 = require("semver");
-exports.runAction = (config) => __awaiter(void 0, void 0, void 0, function* () {
+const runAction = (config) => __awaiter(void 0, void 0, void 0, function* () {
     const cider = yield cider_1.Cider.init(config.srcDir);
     const pubDev = new pubDev_1.PubDev();
     const pubVersion = yield pubDev.getLatestVersion(cider.projectName);
@@ -28,3 +28,4 @@ exports.runAction = (config) => __awaiter(void 0, void 0, void 0, function* () {
         core_1.setOutput("update" /* update */, false);
     }
 });
+exports.runAction = runAction;
