@@ -18,7 +18,7 @@ const runAction = (config) => __awaiter(void 0, void 0, void 0, function* () {
     const cider = yield cider_1.Cider.init(config.srcDir);
     const pubDev = new pubDev_1.PubDev();
     const pubVersion = yield pubDev.getLatestVersion(cider.projectName);
-    if (semver_1.gt(cider.projectVersion, pubVersion)) {
+    if (!pubVersion || semver_1.gt(cider.projectVersion, pubVersion)) {
         core_1.info("Pub.Dev is outdated - generating new release.");
         yield cider.generateReleaseData(pubVersion);
         core_1.setOutput("update" /* update */, true);

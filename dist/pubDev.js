@@ -16,7 +16,7 @@ const semver_1 = require("semver");
 class PubDev {
     getLatestVersion(packageName) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((res, rej) => {
+            return new Promise((resolve, reject) => {
                 core_1.debug(`Getting latest verions of ${packageName} on pub.dev...`);
                 https_1.get(`https://pub.dev/api/packages/${packageName}`, {
                     headers: {
@@ -24,11 +24,15 @@ class PubDev {
                     },
                 }, (response) => {
                     var _a;
+                    if (response.statusCode === 404) {
+                        core_1.info('Package has not been published yet - creating initial release');
+                        resolve(null);
+                    }
                     if (((_a = response.statusCode) !== null && _a !== void 0 ? _a : 400) >= 300) {
-                        rej(new Error(response.statusMessage));
+                        reject(new Error(response.statusMessage));
                         return;
                     }
-                    response.on("error", (e) => rej(e));
+                    response.on("error", (e) => reject(e));
                     const chunks = [];
                     response.on("data", (chunk) => chunks.push(chunk));
                     response.on("end", () => {
@@ -41,10 +45,11 @@ class PubDev {
                             if (!version) {
                                 throw Error(`Invalid project version: ${data.latest.version}`);
                             }
-                            res(new semver_1.SemVer(version));
+                            core_1.debug(`Found package version as ${version}`);
+                            resolve(new semver_1.SemVer(version));
                         }
                         catch (e) {
-                            rej(e);
+                            reject(e);
                         }
                     });
                 });

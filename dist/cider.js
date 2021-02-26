@@ -56,13 +56,13 @@ class Cider {
     generateReleaseData(oldVersion) {
         return __awaiter(this, void 0, void 0, function* () {
             core_1.setOutput("tag_name" /* newVersion */, this._projectVersion.raw);
-            if (this._projectVersion.major > oldVersion.major) {
+            if (oldVersion && this._projectVersion.major > oldVersion.major) {
                 core_1.setOutput("release_name" /* title */, "A new major release is available!");
             }
-            else if (this._projectVersion.minor > oldVersion.minor) {
+            else if (oldVersion && this._projectVersion.minor > oldVersion.minor) {
                 core_1.setOutput("release_name" /* title */, "A new minor release is available!");
             }
-            else if (this._projectVersion.patch > oldVersion.patch) {
+            else if (oldVersion && this._projectVersion.patch > oldVersion.patch) {
                 core_1.setOutput("release_name" /* title */, "A new patch release is available!");
             }
             else {
