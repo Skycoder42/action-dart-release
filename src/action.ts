@@ -9,7 +9,7 @@ export const runAction = async (config: Config): Promise<void> => {
   const pubDev = new PubDev();
 
   const pubVersion = await pubDev.getLatestVersion(cider.projectName);
-  if (gt(cider.projectVersion, pubVersion)) {
+  if (!pubVersion || gt(cider.projectVersion, pubVersion)) {
     info("Pub.Dev is outdated - generating new release.");
     await cider.generateReleaseData(pubVersion);
     setOutput(OutKeys.update, true);

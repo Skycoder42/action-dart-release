@@ -25,7 +25,7 @@ class PubDev {
                 }, (response) => {
                     var _a;
                     if (response.statusCode === 404) {
-                        core_1.info('Package has not been published yet - creating initial release');
+                        core_1.info("Package has not been published yet - creating initial release");
                         resolve(null);
                     }
                     if (((_a = response.statusCode) !== null && _a !== void 0 ? _a : 400) >= 300) {

@@ -70,14 +70,14 @@ export class Cider {
     );
   }
 
-  async generateReleaseData(oldVersion: SemVer): Promise<void> {
+  async generateReleaseData(oldVersion: SemVer | null): Promise<void> {
     setOutput(OutKeys.newVersion, this._projectVersion.raw);
 
-    if (this._projectVersion.major > oldVersion.major) {
+    if (oldVersion && this._projectVersion.major > oldVersion.major) {
       setOutput(OutKeys.title, "A new major release is available!");
-    } else if (this._projectVersion.minor > oldVersion.minor) {
+    } else if (oldVersion && this._projectVersion.minor > oldVersion.minor) {
       setOutput(OutKeys.title, "A new minor release is available!");
-    } else if (this._projectVersion.patch > oldVersion.patch) {
+    } else if (oldVersion && this._projectVersion.patch > oldVersion.patch) {
       setOutput(OutKeys.title, "A new patch release is available!");
     } else {
       setOutput(OutKeys.title, "A new release is available!");
