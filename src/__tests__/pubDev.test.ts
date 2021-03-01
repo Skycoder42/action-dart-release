@@ -58,7 +58,7 @@ describe("pubDev.ts", () => {
       expect(await pubDev.getLatestVersion("")).toEqual(new SemVer("1.2.3"));
     });
 
-    test("Forwards error for invalid status-code", async () => {
+    test("Handles 404 errors correctly", async () => {
       getMock.mockImplementationOnce(
         (_url, _options, callback): ClientRequest => {
           if (callback) {
@@ -71,8 +71,24 @@ describe("pubDev.ts", () => {
         }
       );
 
+      expect(await pubDev.getLatestVersion("")).toBeNull();
+    });
+
+    test("Forwards error for invalid status-code", async () => {
+      getMock.mockImplementationOnce(
+        (_url, _options, callback): ClientRequest => {
+          if (callback) {
+            callback({
+              statusCode: 400,
+              statusMessage: "BAD REQUEST",
+            } as any);
+          }
+          return undefined as any;
+        }
+      );
+
       await expect(pubDev.getLatestVersion("")).rejects.toEqual(
-        Error("NOT FOUND")
+        Error("BAD REQUEST")
       );
     });
 

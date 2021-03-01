@@ -142,6 +142,22 @@ describe("cider.ts", () => {
       });
     }
 
+    test("Assumes general release if version is null", async () => {
+      parseMock.mockReturnValueOnce({
+        version: "1.0.0",
+      });
+      cleanMock.mockReturnValueOnce("1.0.0");
+
+      const cider = await Cider.init("");
+      await cider.generateReleaseData(null);
+
+      expect(setOutputMock).toHaveBeenCalledWith(OutKeys.newVersion, "1.0.0");
+      expect(setOutputMock).toHaveBeenCalledWith(
+        OutKeys.title,
+        "A new release is available!"
+      );
+    });
+
     test("write release body", async () => {
       whichMock.mockResolvedValue("cider.run");
       parseMock.mockReturnValueOnce({
