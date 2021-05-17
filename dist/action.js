@@ -14,8 +14,9 @@ const core_1 = require("@actions/core");
 const pubDev_1 = require("./pubDev");
 const semver_1 = require("semver");
 const path_1 = require("path");
-const promises_1 = require("fs/promises");
+const fs_1 = require("fs");
 const package_1 = require("./package");
+const { writeFile } = fs_1.promises;
 const runAction = (config) => __awaiter(void 0, void 0, void 0, function* () {
     const pkg = new package_1.Package(config.srcDir);
     const pubDev = new pubDev_1.PubDev();
@@ -47,7 +48,7 @@ const createRelease = (oldVersion, newVersion, changelog) => __awaiter(void 0, v
         core_1.setOutput("release_name" /* title */, "A new release is available!");
     }
     const outPath = path_1.join(process.cwd(), "release_body.md");
-    yield promises_1.writeFile(outPath, "## Changelog\n" + changelog, "utf-8");
+    yield writeFile(outPath, "## Changelog\n" + changelog, "utf-8");
     core_1.setOutput("body_path" /* bodyPath */, outPath);
     core_1.setOutput("update" /* update */, true);
 });

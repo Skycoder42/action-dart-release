@@ -13,11 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Package = void 0;
-const promises_1 = require("fs/promises");
 const markdown_it_1 = __importDefault(require("markdown-it"));
 const path_1 = require("path");
 const semver_1 = require("semver");
 const yaml_1 = require("yaml");
+const fs_1 = require("fs");
+const { readFile } = fs_1.promises;
 var ParserState;
 (function (ParserState) {
     ParserState[ParserState["Searching"] = 0] = "Searching";
@@ -32,7 +33,7 @@ class Package {
     }
     loadInfo() {
         return __awaiter(this, void 0, void 0, function* () {
-            const yamlFile = yield promises_1.readFile(path_1.join(this.projectDir, "pubspec.yaml"), "utf-8");
+            const yamlFile = yield readFile(path_1.join(this.projectDir, "pubspec.yaml"), "utf-8");
             const yamlData = yaml_1.parse(yamlFile);
             const version = semver_1.clean(yamlData.version, {
                 includePrerelease: false,
@@ -49,7 +50,7 @@ class Package {
     }
     loadChangelog(version) {
         return __awaiter(this, void 0, void 0, function* () {
-            const changelogContent = yield promises_1.readFile(path_1.join(this.projectDir, "CHANGELOG.md"), "utf-8");
+            const changelogContent = yield readFile(path_1.join(this.projectDir, "CHANGELOG.md"), "utf-8");
             const versionAst = this.parseChangelog(changelogContent, version);
             const lines = this.findLines(versionAst);
             const versionContent = this.extractLines(changelogContent, ...lines);

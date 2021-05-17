@@ -3,8 +3,10 @@ import { OutKeys, Config } from "./config";
 import { PubDev } from "./pubDev";
 import { gt, SemVer } from "semver";
 import { join } from "path";
-import { writeFile } from "fs/promises";
+import { promises } from "fs";
 import { Package } from "./package";
+
+const { writeFile } = promises;
 
 export const runAction = async (config: Config): Promise<void> => {
   const pkg = new Package(config.srcDir);

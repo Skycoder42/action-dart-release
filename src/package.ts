@@ -1,9 +1,11 @@
-import { readFile } from "fs/promises";
 import MarkdownIt from "markdown-it";
 import Token from "markdown-it/lib/token";
 import { join } from "path";
 import { clean, SemVer } from "semver";
 import { parse } from "yaml";
+import { promises } from "fs";
+
+const { readFile } = promises;
 
 type PubspecYaml = {
   name: string;
