@@ -1,6 +1,6 @@
 {
   "name": "action-dart-release",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "An action to create a github release from a dart package",
   "main": "dist/index.js",
   "repository": "https://github.com/Skycoder42/action-dart-release",
@@ -18,11 +18,13 @@
     "@actions/exec": "^1.0.4",
     "@actions/io": "^1.1.0",
     "husky": "^6.0.0",
+    "markdown-it": "^12.0.6",
     "semver": "^7.3.5",
     "yaml": "^1.10.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
+    "@types/markdown-it": "^12.0.1",
     "@types/node": "^15.3.0",
     "@types/semver": "^7.3.6",
     "@types/yaml": "^1.9.7",
