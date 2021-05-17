@@ -1,10 +1,11 @@
 import { mocked } from "ts-jest/utils";
 import { promises } from "fs";
-import { readFile } from "fs/promises";
 import semver, { clean, SemVer } from "semver";
 import { parse } from "yaml";
 import { Package } from "../package";
 import { join } from "path";
+
+const { readFile } = promises;
 
 promises.readFile = jest.fn();
 semver.clean = jest.fn();
