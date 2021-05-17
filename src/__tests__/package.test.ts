@@ -5,14 +5,12 @@ import { parse } from "yaml";
 import { Package } from "../package";
 import { join } from "path";
 
-const { readFile } = promises;
-
 promises.readFile = jest.fn();
 semver.clean = jest.fn();
 
 jest.mock("yaml");
 
-const readFileMock = mocked(readFile, true);
+const readFileMock = mocked(promises.readFile, true);
 const parseMock = mocked(parse, true);
 const cleanMock = mocked(clean, true);
 
