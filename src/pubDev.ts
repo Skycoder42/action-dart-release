@@ -11,6 +11,7 @@ export class PubDev {
         {
           headers: {
             Accept: "application/vnd.pub.v2+json",
+            "Accept-Encoding": "identity",
           },
         },
         (response) => {

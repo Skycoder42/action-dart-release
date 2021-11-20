@@ -1,6 +1,6 @@
 {
   "name": "action-dart-release",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An action to create a github release from a dart package",
   "main": "dist/index.js",
   "repository": "https://github.com/Skycoder42/action-dart-release",
@@ -9,7 +9,7 @@
   "private": false,
   "scripts": {
     "build": "tsc",
-    "run": "ts-node src/main.ts",
+    "start": "ts-node src/main.ts",
     "test": "jest",
     "postinstall": "husky install"
   },

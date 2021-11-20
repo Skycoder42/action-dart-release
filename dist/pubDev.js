@@ -21,6 +21,7 @@ class PubDev {
                 (0, https_1.get)(`https://pub.dev/api/packages/${packageName}`, {
                     headers: {
                         Accept: "application/vnd.pub.v2+json",
+                        "Accept-Encoding": "identity",
                     },
                 }, (response) => {
                     var _a;
@@ -32,6 +33,7 @@ class PubDev {
                         reject(new Error(response.statusMessage));
                         return;
                     }
+                    console.warn(response.headers);
                     response.on("error", (e) => reject(e));
                     const chunks = [];
                     response.on("data", (chunk) => chunks.push(chunk));
@@ -58,3 +60,5 @@ class PubDev {
     }
 }
 exports.PubDev = PubDev;
+const dev = new PubDev();
+dev.getLatestVersion("sodium").then(console.info);
