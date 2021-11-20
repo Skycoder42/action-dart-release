@@ -6,7 +6,7 @@ const run = async (): Promise<void> => {
   try {
     const config = loadConfig();
     await runAction(config);
-  } catch (e) {
+  } catch (e: any) {
     error(e);
     setFailed(e);
   }

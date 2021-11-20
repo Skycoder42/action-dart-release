@@ -33,9 +33,9 @@ class Package {
     }
     loadInfo() {
         return __awaiter(this, void 0, void 0, function* () {
-            const yamlFile = yield readFile(path_1.join(this.projectDir, "pubspec.yaml"), "utf-8");
-            const yamlData = yaml_1.parse(yamlFile);
-            const version = semver_1.clean(yamlData.version, {
+            const yamlFile = yield readFile((0, path_1.join)(this.projectDir, "pubspec.yaml"), "utf-8");
+            const yamlData = (0, yaml_1.parse)(yamlFile);
+            const version = (0, semver_1.clean)(yamlData.version, {
                 includePrerelease: false,
                 loose: true,
             });
@@ -50,7 +50,7 @@ class Package {
     }
     loadChangelog(version) {
         return __awaiter(this, void 0, void 0, function* () {
-            const changelogContent = yield readFile(path_1.join(this.projectDir, "CHANGELOG.md"), "utf-8");
+            const changelogContent = yield readFile((0, path_1.join)(this.projectDir, "CHANGELOG.md"), "utf-8");
             const versionAst = this.parseChangelog(changelogContent, version);
             const lines = this.findLines(versionAst);
             const versionContent = this.extractLines(changelogContent, ...lines);

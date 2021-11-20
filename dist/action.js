@@ -22,33 +22,33 @@ const runAction = (config) => __awaiter(void 0, void 0, void 0, function* () {
     const pubDev = new pubDev_1.PubDev();
     const pkgInfo = yield pkg.loadInfo();
     const pubVersion = yield pubDev.getLatestVersion(pkgInfo.name);
-    if (!pubVersion || semver_1.gt(pkgInfo.version, pubVersion)) {
-        core_1.info("Pub.Dev is outdated - generating new release.");
+    if (!pubVersion || (0, semver_1.gt)(pkgInfo.version, pubVersion)) {
+        (0, core_1.info)("Pub.Dev is outdated - generating new release.");
         const changelog = yield pkg.loadChangelog(pkgInfo.version);
         yield createRelease(pubVersion, pkgInfo.version, changelog);
     }
     else {
-        core_1.info("Pub.Dev is up to date - no new release required.");
-        core_1.setOutput("update" /* update */, false);
+        (0, core_1.info)("Pub.Dev is up to date - no new release required.");
+        (0, core_1.setOutput)("update" /* update */, false);
     }
 });
 exports.runAction = runAction;
 const createRelease = (oldVersion, newVersion, changelog) => __awaiter(void 0, void 0, void 0, function* () {
-    core_1.setOutput("tag_name" /* newVersion */, newVersion.version);
+    (0, core_1.setOutput)("tag_name" /* newVersion */, newVersion.version);
     if (oldVersion && newVersion.major > oldVersion.major) {
-        core_1.setOutput("release_name" /* title */, "A new major release is available!");
+        (0, core_1.setOutput)("release_name" /* title */, "A new major release is available!");
     }
     else if (oldVersion && newVersion.minor > oldVersion.minor) {
-        core_1.setOutput("release_name" /* title */, "A new minor release is available!");
+        (0, core_1.setOutput)("release_name" /* title */, "A new minor release is available!");
     }
     else if (oldVersion && newVersion.patch > oldVersion.patch) {
-        core_1.setOutput("release_name" /* title */, "A new patch release is available!");
+        (0, core_1.setOutput)("release_name" /* title */, "A new patch release is available!");
     }
     else {
-        core_1.setOutput("release_name" /* title */, "A new release is available!");
+        (0, core_1.setOutput)("release_name" /* title */, "A new release is available!");
     }
-    const outPath = path_1.join(process.cwd(), "release_body.md");
+    const outPath = (0, path_1.join)(process.cwd(), "release_body.md");
     yield writeFile(outPath, "## Changelog\n" + changelog, "utf-8");
-    core_1.setOutput("body_path" /* bodyPath */, outPath);
-    core_1.setOutput("update" /* update */, true);
+    (0, core_1.setOutput)("body_path" /* bodyPath */, outPath);
+    (0, core_1.setOutput)("update" /* update */, true);
 });

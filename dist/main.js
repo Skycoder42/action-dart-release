@@ -14,12 +14,12 @@ const config_1 = require("./config");
 const action_1 = require("./action");
 const run = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const config = config_1.loadConfig();
-        yield action_1.runAction(config);
+        const config = (0, config_1.loadConfig)();
+        yield (0, action_1.runAction)(config);
     }
     catch (e) {
-        core_1.error(e);
-        core_1.setFailed(e);
+        (0, core_1.error)(e);
+        (0, core_1.setFailed)(e);
     }
 });
 run();
