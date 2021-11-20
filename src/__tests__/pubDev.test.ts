@@ -23,6 +23,7 @@ describe("pubDev.ts", () => {
         {
           headers: {
             Accept: "application/vnd.pub.v2+json",
+            "Accept-Encoding": "identity",
           },
         },
         expect.any(Function)

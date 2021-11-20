@@ -33,7 +33,6 @@ class PubDev {
                         reject(new Error(response.statusMessage));
                         return;
                     }
-                    console.warn(response.headers);
                     response.on("error", (e) => reject(e));
                     const chunks = [];
                     response.on("data", (chunk) => chunks.push(chunk));
@@ -60,5 +59,3 @@ class PubDev {
     }
 }
 exports.PubDev = PubDev;
-const dev = new PubDev();
-dev.getLatestVersion("sodium").then(console.info);
