@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/jest": "^27.0.3",
     "@types/markdown-it": "^12.2.3",
-    "@types/node": "^16.11.9",
+    "@types/node": "^18.11.7",
     "@types/semver": "^7.3.9",
     "jest": "^27.3.1",
     "prettier": "^2.4.1",
