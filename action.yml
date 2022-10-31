@@ -15,5 +15,5 @@ outputs:
   body_path:
     description: "If a new release is required, it holds the path to a file that contains the part of the changelog that matters for the new version."
 runs:
-  using: "node12"
+  using: "node16"
   main: "dist/main.js"
