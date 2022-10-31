@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@actions/exec": "^1.1.0",
+    "@actions/exec": "^1.1.1",
     "@actions/io": "^1.1.1",
     "husky": "^7.0.4",
     "markdown-it": "^13.0.1",
